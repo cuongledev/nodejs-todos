@@ -49,11 +49,11 @@ module.exports = function(app){
     // update
 
     app.put("/api/todos",function(req,res){
-        if(!req.nody.id){
-            return res.status(500).json(err);
+        if(!req.body._id){
+            return res.status(500).send("Id is require");
         }else{
             Todos.update({
-                _id: req.body.id
+                _id: req.body._id
             },{
                 text: req.body.text,
                 isDone:req.body.isDone
@@ -69,9 +69,9 @@ module.exports = function(app){
 
     //delete
 
-    app.delete("/api/todo/:id",function(req,res){
+    app.delete("/api/todos/:id",function(req,res){
         Todos.remove({
-            _id: req.body.id
+            _id: req.params.id
         },function(err,todo){
             if(err){
                 return res.status(500).json(err);

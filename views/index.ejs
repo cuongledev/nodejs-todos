@@ -10,20 +10,27 @@
     <!-- Bootstrap -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.5.0/css/xeditable.min.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
   </head>
   <body ng-controller="todoController">
 
     <div class="container">
         <div class="jumbotron text-center">
-            <h1>{{ appName }} <span class="label label-info">10</span></h1>
+            <h1>{{ appName }} <span class="label label-info">{{ todos.length }}</span></h1>
         </div>
 
         <div id="todo-list" class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 <div class="checkbox" ng-repeat="todo in todos">
-                    <input type="checkbox" ng-model="todo.isDone"/> <span ng-class="{strike: todo.isDone}"> {{ todo.text }} </span>
+                    
+                    <input type="checkbox" ng-model="todo.isDone" ng-change="updateTodo(todo)"/> 
+                    <a href="" ng-click="deleteTodo(todo)"><i class="fa fa-remove"></i> </a>
+                    <a href="" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible"><i class="fa fa-edit"></i> </a>
+                    <span editable-text="todo.text" e-form="textBtnForm" ng-class="{strike: todo.isDone}" onaftersave="updateTodo(todo)"> {{ todo.text }} </span>
+                    
                 </div>
+                <p class="text-center"><span class="fa fa-spinner fa-spin fa-3x" ng-show="loading"></span></p>
             </div>
         </div>
 
@@ -34,7 +41,7 @@
                         <input type="text" ng-model="formData.text" class="form-control" placeholder="Nhập vào đầu việc cần làm..."/>
                     </div>
 
-                    <button type="button" class="btn btn-success" ng-click="createTodo()">Add todo</button>
+                    <button type="button" class="btn btn-success" ng-disabled="!formData.text" ng-click="createTodo()">Add todo</button>
 
                 </form>
             </div>
@@ -50,6 +57,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.5.0/js/xeditable.min.js"></script>
     <script src="/assets/js/main/app.js"></script>
+    <script src="/assets/js/main/services/svTodos.js"></script>
   </body>
 </html>
